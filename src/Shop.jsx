@@ -33,14 +33,18 @@ export default function Shop() {
         setTotal_price(0);
     }
 
-    const products = [
-        {id:0, name:"Notebook AcerSwift", price:45900, img:"https://img.advice.co.th/images_nas/pic_product4/A0147295/A0147295_s.jpg"},
-        {id:1, name:"Notebook AsusVivo", price:19900, img:"https://img.advice.co.th/images_nas/pic_product4/A0146010/A0146010_s.jpg"},
-        {id:2, name:"Notebook LenovoIdeapad", price:32900, img:"https://img.advice.co.th/images_nas/pic_product4/A0149009/A0149009_s.jpg"},
-        {id:3, name:"Notebook MSIPrestige", price:54900, img:"https://img.advice.co.th/images_nas/pic_product4/A0149954/A0149954_s.jpg"},
-        {id:4, name:"Notebook DELLXPS", price:99900, img:"https://img.advice.co.th/images_nas/pic_product4/A0146335/A0146335_s.jpg"},
-        {id:5, name:"Notebook HPEnvy", price:46900, img:"https://img.advice.co.th/images_nas/pic_product4/A0145712/A0145712_s.jpg"}
-    ];
+    const [products, setProducts] = useState([]);
+    const URL = "https://laughing-space-yodel-r5gvj99vq6jhpqr6-5000.app.github.dev";
+
+    useEffect(() => {
+        axios.get(URL+'/api/products')
+        .then(Response=>{
+            setProducts(Response.data);
+        })
+        .catch(Error=>{
+            console.log("error");
+        })
+    },[]);
 
     const productList = products.map(item=><Item {...item} callback={addCart}/>);
     const cartList=cart.map(item=><><li>{item.id} {item.name} {item.price} <button onClick={(e)=>removeCart(item)}>remove</button></li></>);
